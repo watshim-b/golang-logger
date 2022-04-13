@@ -41,7 +41,6 @@ func testHelper(t *testing.T, fn func(io.Writer), fnc func(logLevel, string) err
 		t.Fatalf("failed to read buf: %v", err)
 	}
 
-	println(buf.String())
 	// 文字列を取得する
 	return strings.TrimRight(buf.String(), "\n")
 }
