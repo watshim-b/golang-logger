@@ -9,6 +9,8 @@ import (
 	"github.com/google/uuid"
 )
 
+var Logger *extLogger
+
 type extLogger struct {
 	uniqueKey    string
 	baseLogLevel logLevel
@@ -16,13 +18,33 @@ type extLogger struct {
 }
 
 // すべてのログレベルを出力する場合にこちらの関数で初期化する
-func NewLogger() (*extLogger, error) {
+func InitLogger() error {
 	u, err := uuid.NewRandom()
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return &extLogger{uniqueKey: u.String(), baseLogLevel: LogLevelNone, writer: os.Stdout}, nil
+	Logger = &extLogger{uniqueKey: u.String(), baseLogLevel: LogLevelNone, writer: os.Stdout}
+	return nil
 }
+
+// すべてのログレベルを出力する場合にこちらの関数で初期化する
+func UppdateUniqueKey() error {
+	u, err := uuid.NewRandom()
+	if err != nil {
+		return err
+	}
+	Logger.uniqueKey = u.String()
+	return nil
+}
+
+// // すべてのログレベルを出力する場合にこちらの関数で初期化する
+// func NewLogger() (*extLogger, error) {
+// 	u, err := uuid.NewRandom()
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	return &extLogger{uniqueKey: u.String(), baseLogLevel: LogLevelNone, writer: os.Stdout}, nil
+// }
 
 //　出力すべきログレベルを指定する
 func (l *extLogger) SetLogLevel(ll logLevel) {
